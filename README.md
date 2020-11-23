@@ -112,11 +112,11 @@ reading the following lines` Data :
 ```
 66 74 5f 77 61 6e 64 72 7f 7f 7f 4e 44 52 65 6c 7f 4c
 ```
-Using hex to ascii, **ft_wandrNDRelL**, authentication failure, I guess i have missed the last hex
+Using hex to ascii, **ft_wandrNDRelL0L**, authentication failure, I guess i have missed the last hex
 ```
 66 74 5f 77 61 6e 64 72 7f 7f 7f 4e 44 52 65 6c 7f 4c 30 4c
 ```
-**ft_wandrNDRelL0L**
+**ft_wandrNDRelL0L**
 ```
 su flag02
 Password: ft_wandrNDRelL0L
