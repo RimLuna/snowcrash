@@ -119,7 +119,7 @@ Using hex to ascii, **ft_wandrNDRelL0L**, authentication failure, I guess i have
 **ft_wandrNDRelL0L**
 ```
 su flag02
-Password: ft_wandrNDRelL0L
+Password: ft_wandrNDRelL0L
 Don't forget to launch getflag !
 flag02@SnowCrash:~$ getflag
 Check flag.Here is your token : kooda2puivaav1idi4f57q8iq
