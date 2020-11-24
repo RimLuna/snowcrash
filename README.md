@@ -175,7 +175,8 @@ Using **binary ninja**
 ```
 mov     dword [esp {var_130}], data_8048fa8  {"You should not reverse this"} 
 ```
-*fuck you, i do what I waant*
+*fuck you, i do what I waant fucking fascist*
+
 The binary calls getuid, the returned UID is in eax
 ```
 call  getuid
