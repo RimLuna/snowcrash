@@ -170,7 +170,7 @@ Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
 level04@SnowCrash:~$ su level05
 Password:ne2searoevaevoem4ov4ar8ap
 ```
-## Attempt to reverse /bin/getflag
+## Attempt to reverse /bin/getflag, because I need to do Minirt 
 Using **binary ninja**
 ```
 mov     dword [esp {var_130}], data_8048fa8  {"You should not reverse this"} 
