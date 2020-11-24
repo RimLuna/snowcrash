@@ -181,7 +181,7 @@ The binary calls getuid, the returned UID is in eax
 ```
 call  getuid
 ```
-*return the real user ID of the calling process*
+*GETUID returns the real user ID of the calling process*
 #### trying to override uid
 ```
 (gdb) b getuid
