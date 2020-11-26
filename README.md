@@ -730,3 +730,5 @@ Password:2A31L79asukciNyi8uppkEuSx
 NO fucking files for fuck's sake, again
 
 *I already have the flag from reversing /bin/getflag I'm too lazy to try to look for clues **Motto in life, never finish a project***
+
+## RE I dont actually have the flag, kill me
